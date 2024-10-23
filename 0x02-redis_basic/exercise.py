@@ -7,6 +7,7 @@ import uuid
 from typing import Union, Callable
 from functools import wraps
 
+
 class Cache:
     """
     Cache class to interact with Redis
@@ -31,7 +32,8 @@ class Cache:
         @wraps(method)
         def wrapper(self, *args, **kwargs):
             """
-            Wrapper function to increment the call count and call the original method.
+            Wrapper function to increment the
+            call count and call the original method.
             """
             self._redis.incr(key)
             return method(self, *args, **kwargs)
@@ -39,21 +41,28 @@ class Cache:
 
     @count_calls
     def store(self, data: Union[str, bytes, int, float]) -> str:
-        """Store the input data in Redis using a random key and return the key"""
-        key = str(uuid.uuid4())  # Generate a random key using uuid4
-        self._redis.set(key, data)  # Store data in Redis
-        return key  # Return the random key
+        """Store the input data in Redis using a random
+        key and return the key
+        """
+        key = str(uuid.uuid4())
+        self._redis.set(key, data)
+        return key
 
-    def get(self, key: str, fn: Callable = None) -> Union[str, bytes, int, float, None]:
+    def get(self, key: str, fn: Callable = None) -> (
+        Union[str, bytes, int, float, None]
+    ):
         """
         Retrieve data from Redis based on the given key.
 
         Args:
             key (str): The key to retrieve the data.
-            fn (Callable, optional): A callable function to apply to the retrieved data. Defaults to None.
+            fn (Callable, optional): A callable function to apply
+            to the retrieved data. Defaults to None.
 
         Returns:
-            Union[str, bytes, int, float, None]: The retrieved data after applying the callable function, or None if the key doesn't exist.
+            Union[str, bytes, int, float, None]: The retrieved data
+            after applying the callable function, or None if the key
+            doesn't exist.
         """
         value = self._redis.get(key)
         if fn:
