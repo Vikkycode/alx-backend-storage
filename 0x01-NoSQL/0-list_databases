@@ -1,1 +1,4 @@
+// 0 list databases
+#!/bin/bash
+echo "show dbs" | mongo
 
